@@ -7,4 +7,3 @@ flask
 datetime
 requests
 xds-protos
-discord-py-slash-command
