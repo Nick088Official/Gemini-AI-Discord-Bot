@@ -9,7 +9,6 @@ import time
 import datetime
 import requests
 from discord.ext import tasks, commands
-import py-cord
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
