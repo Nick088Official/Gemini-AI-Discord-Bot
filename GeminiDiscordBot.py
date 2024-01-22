@@ -210,12 +210,12 @@ async def reset(ctx):
 # Change Settings Slash Command
 @bot.hybrid_command(description="Change the Settings of Gemini AI")
 async def change_settings(ctx, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = Temperature_Text, new_top_p_text: float = Top_P_Text, new_top_k_text: float = Top_K_Text, new_max_output_tokens_text: int = Max_Output_Tokens_Text, new_temperature_image: float = Temperature_Image, new_top_p_image: float = Top_P_Image, new_top_k_image: float = Top_K_Image, new_max_output_tokens_image: int = Max_Output_Tokens_Image):
-      if not ctx.author.guild_permissions.administrator:
-        await ctx.send("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
-        return
-    if not apply:
-        await ctx.send("The apply option must be set to yes, and you must change one of the settings", ephemeral=True)
-        return
+ if not ctx.author.guild_permissions.administrator:
+    await ctx.send("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
+    return
+ if not apply:
+    await ctx.send("The apply option must be set to yes, and you must change one of the settings", ephemeral=True)
+    return
     global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
     System_Prompt = new_system_prompt
     Temperature_Text = new_temperature_text
