@@ -2,7 +2,7 @@ aiohttp
 discord.py
 google-generativeai
 python-dotenv
-py-cord
+py-cord==2.4.1
 flask
 datetime
 requests
