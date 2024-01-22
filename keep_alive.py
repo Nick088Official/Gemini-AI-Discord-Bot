@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "To ensure your bot runs 24/7 on Replit, you can use services like Uptime Robot to ping this URL
+    return "To ensure your bot runs 24/7 on Replit, you can use services like Uptime Robot to ping this URL"
 
 
 def run():
