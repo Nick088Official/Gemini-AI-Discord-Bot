@@ -177,7 +177,7 @@ def get_formatted_message_history(user_id):
 
 async def split_and_send_messages(message_system, text, max_length):
     # Mention the user
-    user_mention = message_system.author.mention
+
 
     # Split the string into parts
     messages = []
@@ -187,7 +187,7 @@ async def split_and_send_messages(message_system, text, max_length):
 
     # Send each part as a separate message
     for string in messages:
-        await message_system.channel.send(f"{user_mention} {string}")
+        await message_system.channel.reply(f"{string}")
 
 
 def clean_discord_message(input_string):
@@ -201,11 +201,12 @@ def clean_discord_message(input_string):
 
 # SIMPLE RESET COMMAND
 
-@bot.hybrid_command(description="Reset your Chat History with the AI Bot.")
+
+@bot.slash_command(description="Reset your Chat History with the AI Bot.")
 async def reset(ctx):
     if ctx.author.id in message_history:
         del message_history[ctx.author.id]
-    await ctx.reply("🤖 History Reset for user: " + str(ctx.author.name))
+    await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 
