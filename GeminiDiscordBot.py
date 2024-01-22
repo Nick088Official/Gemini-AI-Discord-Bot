@@ -5,8 +5,6 @@ from pathlib import Path
 import asyncio
 import re
 import os
-import time
-import datetime
 import requests
 from discord.ext import tasks, commands
 
