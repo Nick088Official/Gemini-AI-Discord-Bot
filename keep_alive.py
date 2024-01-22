@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "To ensure your bot runs 24/7 on Replit, you can use services like Uptime Robot to ping this URL"
+    return "To run this bot forever free you can use this Github Repo Made by Nick088 in Render for it to deploy using your own gemini api and discord bot token, or you can fork this for your modifications and use that instead, also use Uptime Robot to ensure it stays up"
 
 
 def run():
