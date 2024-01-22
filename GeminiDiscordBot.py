@@ -9,6 +9,9 @@ import time
 import datetime
 import requests
 from discord.ext import tasks, commands
+from discord_slash import SlashCommand
+
+slash = SlashCommand(bot, sync_commands=True)
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
@@ -202,11 +205,11 @@ def clean_discord_message(input_string):
 # SIMPLE RESET COMMAND
 
 
-@bot.slash_command(description="Reset your Chat History with the AI Bot.")
+@slash.slash(description="Reset your Chat History with the AI Bot.")
 async def reset(ctx):
     if ctx.author.id in message_history:
         del message_history[ctx.author.id]
-    await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
+    await ctx.send("🤖 History Reset for user: " + str(ctx.author.name))
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 
