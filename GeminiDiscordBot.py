@@ -205,7 +205,7 @@ def clean_discord_message(input_string):
 async def reset(ctx):
     if ctx.author.id in message_history:
         del message_history[ctx.author.id]
-    await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
+    await ctx.reply("🤖 History Reset for user: " + str(ctx.author.name))
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 
