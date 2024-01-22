@@ -9,6 +9,7 @@ import time
 import datetime
 import requests
 from discord.ext import tasks, commands
+import py-cord
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
@@ -208,6 +209,17 @@ async def reset(ctx):
         del message_history[ctx.author.id]
     await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
+
+# Ping Command
+@bot.slash_command(description="Returns the bot's ping")
+async def ping(ctx):
+  before = time.monotonic()
+  await ctx.respond("Fetching Ping..", delete_after=0)
+  ping = (time.monotonic() - before) * 1000
+  em = discord.Embed(title="PONG!🏓", description=f"My Ping is `{int(ping)} ms`")
+  em.set_author(name=ctx.author)
+  em.timestamp = datetime.datetime.utcnow()
+  await ctx.respond(embed=em)
 
 
 # ---------------------------------------------Run Bot-------------------------------------------------
