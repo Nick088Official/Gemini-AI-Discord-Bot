@@ -140,8 +140,7 @@ async def generate_response_with_text(message_text):
 
 async def generate_response_with_image_and_text(image_data, text):
     image_parts = [{"mime_type": "image/jpeg", "data": image_data}]
-    prompt_parts = [image_parts[0], f"\n{
-        text if text else 'What is this a picture of?'}"]
+    prompt_parts = [image_parts[0], f"\n{text if text else 'What is this a picture of?'}"]
     response = image_model.generate_content(prompt_parts)
     if (response._error):
         return "❌" + str(response._error)
