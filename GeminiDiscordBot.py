@@ -187,7 +187,7 @@ async def split_and_send_messages(message_system, text, max_length):
 
     # Send each part as a separate message
     for string in messages:
-        await message_system.channel.reply(f"{string}")
+        await message_system.reply(f"{string}")
 
 
 def clean_discord_message(input_string):
@@ -200,25 +200,26 @@ def clean_discord_message(input_string):
 # ---------------------------------------------Slash Commands--------------------------------------
 
 # SIMPLE RESET COMMAND
-
-
-@bot.slash_command(description="Reset your Chat History with the AI Bot.")
+@bot.hybrid_command(description="Reset your Chat History with the AI Bot.")
 async def reset(ctx):
     if ctx.author.id in message_history:
         del message_history[ctx.author.id]
-    await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
+    await ctx.send("🤖 History Reset for user: " + str(ctx.author.name))
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
-# Ping Command
-@bot.slash_command(description="Returns the bot's ping")
-async def ping(ctx):
-  before = time.monotonic()
-  await ctx.respond("Fetching Ping..", delete_after=0)
-  ping = (time.monotonic() - before) * 1000
-  em = discord.Embed(title="PONG!🏓", description=f"My Ping is `{int(ping)} ms`")
-  em.set_author(name=ctx.author)
-  em.timestamp = datetime.datetime.utcnow()
-  await ctx.respond(embed=em)
+#System Prompt Slash Command
+@bot.hybrid_command(description="Change the System Prompt of Gemini AI")
+async def set_system_prompt(ctx, new_prompt: str):
+    global System_Prompt
+    System_Prompt = new_prompt
+    with open("GeminiBotConfig.py", "r") as file:
+        filedata = file.read()
+    # Replace the old System_Prompt value with the new one
+    new_data = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_prompt}"', filedata)
+    with open("GeminiBotConfig.py", "w") as file:
+        file.write(new_data)
+    await ctx.send(str(ctx.author.id) + f"System prompt changed to: {new_prompt}")
+    print(str(ctx.author.id) + f"System prompt changed to: {new_prompt}")
 
 
 # ---------------------------------------------Run Bot-------------------------------------------------
