@@ -240,8 +240,8 @@ async def change_settings(ctx, apply: bool, new_system_prompt: str = System_Prom
     new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*".*?"', f'Max_Ouptut_Tokens_Image = {new_max_output_tokens_image}', new_data)
     with open("GeminiBotConfig.py", "w") as file:
         file.write(new_data)
-    await ctx.send((str(ctx.author.id) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
-    print((str(ctx.author.id) +f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
+    await ctx.send((str(ctx.author.id), f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
+    print((str(ctx.author.id), f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
 
 #Show Settings Slash Command
 @bot.hybrid_command(description="Show the Settings of Gemini AI")
@@ -249,8 +249,8 @@ async def show_settings(ctx):
  if not ctx.author.guild_permissions.administrator:
     await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
     return
-    await ctx.send((str(ctx.author.id) + f" Showed: \nSystem prompt: {System_Prompt}\nTemperature Text: {Temperature_Text}\nTop P Text: {Top_P_Text}\nTop K Text: {Top_K_Text}\nMax Output Tokens Text: {Max_Output_Tokens_Text}\nTemperature Image: {Temperature_Image}\nTop P Image: {Top_P_Image}\nTop K Image: {Top_K_Image}\nMax Output Tokens Image: {Max_Output_Tokens_Image}")
-    print((str(ctx.author.id) + f" Showed: \nSystem prompt: {System_Prompt}\nTemperature Text: {Temperature_Text}\nTop P Text: {Top_P_Text}\nTop K Text: {Top_K_Text}\nMax Output Tokens Text: {Max_Output_Tokens_Text}\nTemperature Image: {Temperature_Image}\nTop P Image: {Top_P_Image}\nTop K Image: {Top_K_Image}\nMax Output Tokens Image: {Max_Output_Tokens_Image}")
+    await ctx.send((str(ctx.author.id), f" Showed: \nSystem prompt: {System_Prompt}\nTemperature Text: {Temperature_Text}\nTop P Text: {Top_P_Text}\nTop K Text: {Top_K_Text}\nMax Output Tokens Text: {Max_Output_Tokens_Text}\nTemperature Image: {Temperature_Image}\nTop P Image: {Top_P_Image}\nTop K Image: {Top_K_Image}\nMax Output Tokens Image: {Max_Output_Tokens_Image}")
+    print((str(ctx.author.id), f" Showed: \nSystem prompt: {System_Prompt}\nTemperature Text: {Temperature_Text}\nTop P Text: {Top_P_Text}\nTop K Text: {Top_K_Text}\nMax Output Tokens Text: {Max_Output_Tokens_Text}\nTemperature Image: {Temperature_Image}\nTop P Image: {Top_P_Image}\nTop K Image: {Top_K_Image}\nMax Output Tokens Image: {Max_Output_Tokens_Image}")
 
 # ---------------------------------------------Run Bot-------------------------------------------------
 bot.run(DISCORD_BOT_TOKEN)
