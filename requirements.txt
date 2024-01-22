@@ -1,4 +1,11 @@
+asyncio
 aiohttp
 discord.py
 google-generativeai
 python-dotenv
+py-cord==2.4.1
+flask
+threading
+datetime
+requests
+xds-protos

@@ -5,7 +5,9 @@ from pathlib import Path
 import asyncio
 import re
 import os
-import time, datetime, requests
+import time
+import datetime
+import requests
 from discord.ext import tasks, commands
 
 from GeminiBotConfig import GOOGLE_AI_KEY
@@ -22,7 +24,7 @@ from GeminiBotConfig import Top_K_Image
 from GeminiBotConfig import Max_Output_Tokens_Image
 
 message_history = {}
-#---------------------------------------------AI Configuration-------------------------------------------------
+# ---------------------------------------------AI Configuration-------------------------------------------------
 
 # Configure the generative AI model
 genai.configure(api_key=GOOGLE_AI_KEY)
@@ -45,13 +47,16 @@ safety_settings = [
     {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_ONLY_HIGH"}
 ]
 
-text_model = genai.GenerativeModel(model_name="gemini-pro", generation_config=text_generation_config, safety_settings=safety_settings)
-image_model = genai.GenerativeModel(model_name="gemini-pro-vision", generation_config=image_generation_config, safety_settings=safety_settings)
+text_model = genai.GenerativeModel(
+    model_name="gemini-pro", generation_config=text_generation_config, safety_settings=safety_settings)
+image_model = genai.GenerativeModel(
+    model_name="gemini-pro-vision", generation_config=image_generation_config, safety_settings=safety_settings)
 
 
-#---------------------------------------------Discord Code-------------------------------------------------
+# ---------------------------------------------Discord Code-------------------------------------------------
 # Initialize Discord bot
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
+
 
 @bot.event
 async def on_ready():
@@ -59,7 +64,9 @@ async def on_ready():
     print(f'Gemini AI Logged in as {bot.user} on Discord!')
     print("----------------------------------------")
 
-#On Message Function
+# On Message Function
+
+
 @bot.event
 async def on_message(message):
     # Ignore messages sent by the bot
@@ -67,16 +74,17 @@ async def on_message(message):
         return
     # Check if the bot is mentioned or the message is a DM
     if bot.user.mentioned_in(message) or isinstance(message.channel, discord.DMChannel):
-        #Start Typing to seem like something happened
+        # Start Typing to seem like something happened
         cleaned_text = clean_discord_message(message.content)
 
         async with message.channel.typing():
             # Check for image attachments
             if message.attachments:
-                print("New Image Message FROM:" + str(message.author.id) + ": " + cleaned_text)
-                #Currently no chat history for images
+                print("New Image Message FROM:" +
+                      str(message.author.id) + ": " + cleaned_text)
+                # Currently no chat history for images
                 for attachment in message.attachments:
-                    #these are the only image extentions it currently accepts
+                    # these are the only image extentions it currently accepts
                     if any(attachment.filename.lower().endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.gif', '.webp']):
                         await message.add_reaction('🎨')
 
@@ -87,56 +95,61 @@ async def on_message(message):
                                     return
                                 image_data = await resp.read()
                                 response_text = await generate_response_with_image_and_text(image_data, cleaned_text)
-                                #Split the Message so discord does not get upset
+                                # Split the Message so discord does not get upset
                                 await split_and_send_messages(message, response_text, 2000)
                                 return
-            #Not an Image do text response
+            # Not an Image do text response
             else:
-                print("New Message FROM:" + str(message.author.id) + ": " + cleaned_text)
-                #Check for Keyword Reset
+                print("New Message FROM:" +
+                      str(message.author.id) + ": " + cleaned_text)
+                # Check for Keyword Reset
                 if "RESET" in cleaned_text:
-                    #End back message
+                    # End back message
                     if message.author.id in message_history:
                         del message_history[message.author.id]
                     await message.channel.send("🤖 History Reset for user: " + str(message.author.name))
                     return
                 await message.add_reaction('💬')
 
-                #Check if history is disabled just send response
-                if(MAX_HISTORY == 0):
+                # Check if history is disabled just send response
+                if (MAX_HISTORY == 0):
                     response_text = await generate_response_with_text(cleaned_text)
-                    #add AI response to history
+                    # add AI response to history
                     await split_and_send_messages(message, response_text, 2000)
-                    return;
-                #Add users question to history
-                update_message_history(message.author.id,cleaned_text)
+                    return
+                # Add users question to history
+                update_message_history(message.author.id, cleaned_text)
                 response_text = await generate_response_with_text(get_formatted_message_history(message.author.id))
-                #add AI response to history
-                update_message_history(message.author.id,response_text)
-                #Split the Message so discord does not get upset
+                # add AI response to history
+                update_message_history(message.author.id, response_text)
+                # Split the Message so discord does not get upset
                 await split_and_send_messages(message, response_text, 2000)
 
-#---------------------------------------------AI Generation History-------------------------------------------------           
+# ---------------------------------------------AI Generation History-------------------------------------------------
+
 
 async def generate_response_with_text(message_text):
     prompt_parts = [System_Prompt, message_text]
     print("Got textPrompt: " + message_text)
     response = text_model.generate_content(prompt_parts)
-    if(response._error):
-        return "❌" +  str(response._error)
+    if (response._error):
+        return "❌" + str(response._error)
     print("Gemini AI Replied: " + response.text)
     return response.text
 
 
 async def generate_response_with_image_and_text(image_data, text):
     image_parts = [{"mime_type": "image/jpeg", "data": image_data}]
-    prompt_parts = [image_parts[0], f"\n{text if text else 'What is this a picture of?'}"]
+    prompt_parts = [image_parts[0], f"\n{
+        text if text else 'What is this a picture of?'}"]
     response = image_model.generate_content(prompt_parts)
-    if(response._error):
-        return "❌" +  str(response._error)
+    if (response._error):
+        return "❌" + str(response._error)
     return response.text
 
-#---------------------------------------------Message History-------------------------------------------------
+# ---------------------------------------------Message History-------------------------------------------------
+
+
 def update_message_history(user_id, text):
     # Check if user_id already exists in the dictionary
     if user_id in message_history:
@@ -149,6 +162,7 @@ def update_message_history(user_id, text):
         # If the user_id does not exist, create a new entry with the message
         message_history[user_id] = [text]
 
+
 def get_formatted_message_history(user_id):
     """
     Function to return the message history for a given user_id with two line breaks between each message.
@@ -159,7 +173,9 @@ def get_formatted_message_history(user_id):
     else:
         return "No messages found for this user."
 
-#---------------------------------------------Sending Messages-------------------------------------------------
+# ---------------------------------------------Sending Messages-------------------------------------------------
+
+
 async def split_and_send_messages(message_system, text, max_length):
     # Mention the user
     user_mention = message_system.author.mention
@@ -172,26 +188,28 @@ async def split_and_send_messages(message_system, text, max_length):
 
     # Send each part as a separate message
     for string in messages:
-        await message_system.channel.send(f"{user_mention} {string}")    
+        await message_system.channel.send(f"{user_mention} {string}")
+
 
 def clean_discord_message(input_string):
     # Create a regular expression pattern to match text between < and >
     bracket_pattern = re.compile(r'<[^>]+>')
     # Replace text between brackets with an empty string
     cleaned_content = bracket_pattern.sub('', input_string)
-    return cleaned_content  
+    return cleaned_content
 
-#---------------------------------------------Slash Commands--------------------------------------
+# ---------------------------------------------Slash Commands--------------------------------------
 
 # SIMPLE RESET COMMAND
+
+
 @bot.slash_command(description="Reset your Chat History with the AI Bot.")
 async def reset(ctx):
-  if ctx.author.id in message_history:
-      del message_history[ctx.author.id]
-  await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
-  print(str(ctx.author.id) + " Has Resetted their AI Chat History")
-  
+    if ctx.author.id in message_history:
+        del message_history[ctx.author.id]
+    await ctx.respond("🤖 History Reset for user: " + str(ctx.author.name))
+    print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 
-#---------------------------------------------Run Bot-------------------------------------------------
+# ---------------------------------------------Run Bot-------------------------------------------------
 bot.run(DISCORD_BOT_TOKEN)
