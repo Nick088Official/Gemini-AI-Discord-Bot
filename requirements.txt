@@ -2,8 +2,9 @@ aiohttp
 discord.py
 google-generativeai
 python-dotenv
-py-cord==2.4.1
+py-cord
 flask
 datetime
 requests
 xds-protos
+discord-py-slash-command
