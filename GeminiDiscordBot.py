@@ -208,8 +208,7 @@ async def reset(ctx):
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 # Change Settings Slash Command
-# Change Settings Slash Command
-@bot.hybrid_command(description="Change the Settings of Gemini AI", name="change_settings")
+@bot.hybrid_command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction: discord.Interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = Temperature_Text, new_top_p_text: float = Top_P_Text, new_top_k_text: float = Top_K_Text, new_max_output_tokens_text: int = Max_Output_Tokens_Text, new_temperature_image: float = Temperature_Image, new_top_p_image: float = Top_P_Image, new_top_k_image: float = Top_K_Image, new_max_output_tokens_image: int = Max_Output_Tokens_Image):
     if not interaction.user.guild_permissions.administrator:
         await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
@@ -245,7 +244,7 @@ async def change_settings(interaction: discord.Interaction, apply: bool, new_sys
     print(f"{interaction.user.id} Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
 
 #Show Settings Slash Command
-@bot.hybrid_command(="show_settings", description="Show the Settings of Gemini AI")
+@bot.hybrid_command(description="Show the Settings of Gemini AI")
 async def show_settings(interaction: discord.Interaction):
  if not interaction.user.guild_permissions.administrator:
     await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
