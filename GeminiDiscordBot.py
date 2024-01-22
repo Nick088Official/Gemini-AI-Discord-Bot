@@ -55,7 +55,7 @@ image_model = genai.GenerativeModel(
 
 # ---------------------------------------------Discord Code-------------------------------------------------
 # Initialize Discord bot
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
 
 
 @bot.event
@@ -177,7 +177,7 @@ def get_formatted_message_history(user_id):
 
 async def split_and_send_messages(message_system, text, max_length):
     # Mention the user
-    user_mention = message_system.author.mention
+
 
     # Split the string into parts
     messages = []
@@ -187,7 +187,7 @@ async def split_and_send_messages(message_system, text, max_length):
 
     # Send each part as a separate message
     for string in messages:
-        await message_system.channel.send(f"{user_mention} {string}")
+        await message_system.channel.reply(f"{string}")
 
 
 def clean_discord_message(input_string):
@@ -200,6 +200,7 @@ def clean_discord_message(input_string):
 # ---------------------------------------------Slash Commands--------------------------------------
 
 # SIMPLE RESET COMMAND
+
 
 @bot.slash_command(description="Reset your Chat History with the AI Bot.")
 async def reset(ctx):
