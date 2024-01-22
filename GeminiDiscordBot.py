@@ -208,53 +208,50 @@ async def reset(ctx):
     print(str(ctx.author.id) + " Has Resetted their AI Chat History")
 
 # Change Settings Slash Command
-@bot.hybrid_command(description="Change the Settings of Gemini AI")
-async def change_settings(ctx, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = Temperature_Text, new_top_p_text: float = Top_P_Text, new_top_k_text: float = Top_K_Text, new_max_output_tokens_text: int = Max_Output_Tokens_Text, new_temperature_image: float = Temperature_Image, new_top_p_image: float = Top_P_Image, new_top_k_image: float = Top_K_Image, new_max_output_tokens_image: int = Max_Output_Tokens_Image):
-      if not ctx.author.guild_permissions.administrator:
-          await ctx.send("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
-          return
-      if not apply:
-          await ctx.send("The apply option must be set to yes, and you must change one of the settings", ephemeral=True)
-          return
-      global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
-      System_Prompt = new_system_prompt
-      Temperature_Text = new_temperature_text
-      Top_P_Text = new_top_p_text
-      Top_K_Text = new_top_k_text
-      Max_Output_Tokens_Text = new_max_output_tokens_text
-      Temperature_Image = new_temperature_image
-      Top_P_Image = new_top_p_image
-      Top_K_Image = new_top_k_image
-      Max_Ouptut_Tokens_Image = new_max_output_tokens_image
-      with open("GeminiBotConfig.py", "r") as file:
-          filedata = file.read()
-      # Replace the old values of the variables with the new ones
-      new_data = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
-      new_data = re.sub(r'Temperature_Text\s*=\s*".*?"', f'Temperature_Text = {new_temperature_text}', new_data)
-      new_data = re.sub(r'Top_P_Text\s*=\s*".*?"', f'Top_P_Text = {new_top_p_text}', new_data)
-      new_data = re.sub(r'Top_K_Text\s*=\s*".*?"', f'Top_K_Text = {new_top_k_text}', new_data)
-      new_data = re.sub(r'Max_Output_Tokens_Text\s*=\s*".*?"', f'Max_Output_Tokens_Text = {new_max_output_tokens_text}', new_data)
-      new_data = re.sub(r'Temperature_Image\s*=\s*".*?"', f'Temperature_Image = {new_temperature_image}', new_data)
-      new_data = re.sub(r'Top_P_Image\s*=\s*".*?"', f'Top_P_Image = {new_top_p_image}', new_data)
-      new_data = re.sub(r'Top_K_Image\s*=\s*".*?"', f'Top_K_Image = {new_top_k_image}', new_data)
-      new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*".*?"', f'Max_Ouptut_Tokens_Image = {new_max_output_tokens_image}', new_data)
-      with open("GeminiBotConfig.py", "w") as file:
-          file.write(new_data)
-      await ctx.send(str(ctx.author.name) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
-      print((str(ctx.author.id) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}."))
+# Change Settings Slash Command
+@bot.hybrid_command(description="Change the Settings of Gemini AI", name="change_settings")
+async def change_settings(interaction: discord.Interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = Temperature_Text, new_top_p_text: float = Top_P_Text, new_top_k_text: float = Top_K_Text, new_max_output_tokens_text: int = Max_Output_Tokens_Text, new_temperature_image: float = Temperature_Image, new_top_p_image: float = Top_P_Image, new_top_k_image: float = Top_K_Image, new_max_output_tokens_image: int = Max_Output_Tokens_Image):
+    if not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
+        return
+    if not apply:
+        await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings", ephemeral=True)
+        return
+    global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
+    System_Prompt = new_system_prompt
+    Temperature_Text = new_temperature_text
+    Top_P_Text = new_top_p_text
+    Top_K_Text = new_top_k_text
+    Max_Output_Tokens_Text = new_max_output_tokens_text
+    Temperature_Image = new_temperature_image
+    Top_P_Image = new_top_p_image
+    Top_K_Image = new_top_k_image
+    Max_Ouptut_Tokens_Image = new_max_output_tokens_image
+    with open("GeminiBotConfig.py", "r") as file:
+        filedata = file.read()
+    # Replace the old values of the variables with the new ones
+    new_data = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
+    new_data = re.sub(r'Temperature_Text\s*=\s*".*?"', f'Temperature_Text = {new_temperature_text}', new_data)
+    new_data = re.sub(r'Top_P_Text\s*=\s*".*?"', f'Top_P_Text = {new_top_p_text}', new_data)
+    new_data = re.sub(r'Top_K_Text\s*=\s*".*?"', f'Top_K_Text = {new_top_k_text}', new_data)
+    new_data = re.sub(r'Max_Output_Tokens_Text\s*=\s*".*?"', f'Max_Output_Tokens_Text = {new_max_output_tokens_text}', new_data)
+    new_data = re.sub(r'Temperature_Image\s*=\s*".*?"', f'Temperature_Image = {new_temperature_image}', new_data)
+    new_data = re.sub(r'Top_P_Image\s*=\s*".*?"', f'Top_P_Image = {new_top_p_image}', new_data)
+    new_data = re.sub(r'Top_K_Image\s*=\s*".*?"', f'Top_K_Image = {new_top_k_image}', new_data)
+    new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*".*?"', f'Max_Ouptut_Tokens_Image = {new_max_output_tokens_image}', new_data)
+    with open("GeminiBotConfig.py", "w") as file:
+        file.write(new_data)
+    await interaction.response.send_message(f"{interaction.user.name} Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.", ephemeral=True)
+    print(f"{interaction.user.id} Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
+uthor.id) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}."))
 
 #Show Settings Slash Command
-@bot.hybrid_command(description="Show the Settings of Gemini AI")
-async def show_settings(ctx):
-  if not ctx.author.guild_permissions.administrator:
-      await ctx.send("Only who has Admin Perms can Show Gemini AI Settings.", ephemeral=True)
-  else:
-      global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
-      with open("GeminiBotConfig.py", "r") as file:
-          filedata = file.read()
-      await ctx.send(str(ctx.author.name) + f" Showed: \nSystem Prompt: {System_Prompt}. \nTemperature Text: {Temperature_Text}. \nTop P Text: {Top_P_Text}. \nTop K Text: {Top_K_Text}. \nMax Output Tokens Text: {Max_Output_Tokens_Text}. \nTemperature Image: {Temperature_Image}. \nTop P Image: {Top_P_Image}. \nTop K Image: {Top_K_Image}. \nMax Output Tokens Image: {Max_Output_Tokens_Image}.")
-      print((str(ctx.author.id) + f" Showed: \nSystem Prompt: {System_Prompt}. \nTemperature Text: {Temperature_Text}. \nTop P Text: {Top_P_Text}. \nTop K Text: {Top_K_Text}. \nMax Output Tokens Text: {Max_Output_Tokens_Text}. \nTemperature Image: {Temperature_Image}. \nTop P Image: {Top_P_Image}. \nTop K Image: {Top_K_Image}. \nMax Output Tokens Image: {Max_Output_Tokens_Image}."))
-
+@bot.hybrid_command(="show_settings", description="Show the Settings of Gemini AI")
+async def show_settings(interaction: discord.Interaction):
+ if not interaction.user.guild_permissions.administrator:
+    await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
+    return
+    await interaction.response.send_message(f"System prompt: {System_Prompt}\nTemperature Text: {Temperature_Text}\nTop P Text: {Top_P_Text}\nTop K Text: {Top_K_Text}\nMax Output Tokens Text: {Max_Output_Tokens_Text}\nTemperature Image: {Temperature_Image}\nTop P Image: {Top_P_Image}\nTop K Image: {Top_K_Image}\nMax Output Tokens Image: {Max_Output_Tokens_Image}", ephemeral=True)
 
 # ---------------------------------------------Run Bot-------------------------------------------------
 bot.run(DISCORD_BOT_TOKEN)
