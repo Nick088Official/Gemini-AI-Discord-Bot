@@ -1,11 +1,11 @@
-import discord
+import discord 
 import google.generativeai as genai
 from pathlib import Path
-import asyncio
 import re
 import os
 import requests
-from discord.ext import tasks, commands 
+from discord.ext import tasks, commands
+
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
@@ -52,7 +52,7 @@ image_model = genai.GenerativeModel(
 
 # ---------------------------------------------Discord Code-------------------------------------------------
 # Initialize Discord bot
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
+bot = discord.Bot(command_prefix="!", intents=discord.Intents.default())
 
 
 @bot.event
