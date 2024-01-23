@@ -6,7 +6,7 @@ DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN_']
 #Disable history by setting to 0
 MAX_HISTORY = 15
 
-System_Prompt = ""
+System_Prompt = "hi"
 
 Temperature_Text = 0.7
 
@@ -23,3 +23,5 @@ Top_P_Image = 1
 Top_K_Image = 32
 
 Max_Output_Tokens_Image = 1000
+
+Owner_User_Discord_ID = my_secret = os.environ['Discord_ID']
