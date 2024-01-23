@@ -7,8 +7,6 @@ import requests
 from discord.ext import tasks, commands
 from discord import app_commands
 
-
-
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
 from GeminiBotConfig import MAX_HISTORY
@@ -52,20 +50,6 @@ text_model = genai.GenerativeModel(
 image_model = genai.GenerativeModel(
     model_name="gemini-pro-vision", generation_config=image_generation_config, safety_settings=safety_settings)
 
-
-convo = text_model.start_chat(history=[
-  {
-    "role": "user",
-    "parts": ["whos ai hub chan?"]
-  },
-  {
-    "role": "model",
-    "parts": ["its a mascot of the ai hub discord server"]
-  },
-])
-
-convo.send_message("whos ai hub chan?")
-print(convo.last.text)
 
 # ---------------------------------------------Discord Code-------------------------------------------------
 # Initialize Discord bot
