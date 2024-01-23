@@ -1,11 +1,11 @@
+import discord
 import google.generativeai as genai
 from pathlib import Path
 import asyncio
 import re
 import os
 import requests
-import discord
-from discord.ext import commands 
+from discord.ext import tasks, commands 
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
