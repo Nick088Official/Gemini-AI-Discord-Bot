@@ -24,4 +24,4 @@ Top_K_Image = 32
 
 Max_Output_Tokens_Image = 1000
 
-Owner_User_Discord_ID = my_secret = os.environ['Discord_ID']
+Owner_User_Discord_ID = os.environ['DISCORD_OWNER_ID']
