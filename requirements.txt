@@ -5,4 +5,3 @@ python-dotenv
 flask==3.0.1
 requests==2.31.0
 xds-protos==1.60.0
-py-cord==2.4.1
