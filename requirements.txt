@@ -1,8 +1,8 @@
 aiohttp
-discord.py
+py-cord
+discord-py
 google-generativeai
 python-dotenv
-py-cord
 flask
 requests
 xds-protos
