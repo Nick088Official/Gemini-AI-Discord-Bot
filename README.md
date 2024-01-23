@@ -15,7 +15,7 @@
 
 1. FORK this Repo & Login at https://render.com and do create new Web Service
 2. Do Build and Deploy from a Git Repository and continue putting the link of the forked repo
-3. Give it a name, Select the free Plan,Put "pip install -U -r requirements.txt" as Build Command & "python main.py" as Start Command
+3. Give it a name, Select the Free Plan,Put "pip install -U -r requirements.txt" as Build Command & "python main.py" as Start Command
 4. Add 3 Enviroment Variables:[Your Discord Bot Token](https://www.writebots.com/discord-bot-token/), Your [Gemini Api Key](https://makersuite.google.com/app/apikey), and [Your Own Discord Id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#:~:text=On%20Android%20press%20and%20hold,name%20and%20select%20Copy%20ID.) ![image](https://github.com/Nick088Official/Gemini-AI-Discord-Bot/assets/91847579/bf6e719b-94fc-4162-b663-b12a7a4c9f09)
 5. Create Web Service, then Deploy Last Commitment and your ready! in some time the bot will be online and stay like that for free 24/7
 
@@ -47,7 +47,7 @@ OR
 
 - **Mention or DM the bot to activate:** History only works on pure text input
 - **Send an Image:** The bot will respond with an AI-generated interpretation or related content.
-- **Type 'RESET':** Clears the message history for the user.
+- **Type 'RESET' OR do '/reset':** Clears the message history for the user.
 - **/change_settings:** For changing the bots settings (only for owner)
 - **/show_settings:** For showing the bots settings (only for owner)
 
