@@ -21,6 +21,7 @@ from GeminiBotConfig import Temperature_Image
 from GeminiBotConfig import Top_P_Image
 from GeminiBotConfig import Top_K_Image
 from GeminiBotConfig import Max_Output_Tokens_Image
+from GeminiBotConfig import Owner_User_Discord_ID
 
 message_history = {}
 # ---------------------------------------------AI Configuration-------------------------------------------------
@@ -51,6 +52,20 @@ text_model = genai.GenerativeModel(
 image_model = genai.GenerativeModel(
     model_name="gemini-pro-vision", generation_config=image_generation_config, safety_settings=safety_settings)
 
+
+convo = text_model.start_chat(history=[
+  {
+    "role": "user",
+    "parts": ["whos ai hub chan?"]
+  },
+  {
+    "role": "model",
+    "parts": ["its a mascot of the ai hub discord server"]
+  },
+])
+
+convo.send_message("whos ai hub chan?")
+print(convo.last.text)
 
 # ---------------------------------------------Discord Code-------------------------------------------------
 # Initialize Discord bot
@@ -211,11 +226,11 @@ async def reset(interaction):
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
-      if not interaction.user.guild_permissions.administrator:
-          await interaction.response.send_message("Only who has Admin Perms can Change Gemini AI Settings.", ephemeral=True)
+      if interaction.user.id != Owner_User_Discord_ID:
+          await interaction.response.send_message("Only the Owner can Change Gemini AI Settings.", ephemeral=True)
           return
       if not apply:
-          await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings", ephemeral=True)
+          await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
       global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
       System_Prompt = new_system_prompt
@@ -247,8 +262,8 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
 #Show Settings Slash Command
 @tree.command(description="Show the Settings of Gemini AI")
 async def show_settings(interaction):
-  if not interaction.user.guild_permissions.administrator:
-      await interaction.response.send_message("Only who has Admin Perms can Show Gemini AI Settings.", ephemeral=True)
+  if interaction.user.id != Owner_User_Discord_ID:
+      await interaction.response.send_message("Only the Owner can Show Gemini AI Settings.", ephemeral=True)
   else:
       global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
       with open("GeminiBotConfig.py", "r") as file:
