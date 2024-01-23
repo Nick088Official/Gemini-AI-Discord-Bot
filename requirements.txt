@@ -1,6 +1,6 @@
 aiohttp
-py-cord
 discord-py
+py-cord
 google-generativeai
 python-dotenv
 flask
