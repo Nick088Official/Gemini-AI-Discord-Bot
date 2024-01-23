@@ -226,7 +226,7 @@ async def reset(interaction):
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
-      if interaction.user.id != Owner_User_Discord_ID:
+      if float(interaction.user.id) != float(Owner_User_Discord_ID):
           await interaction.response.send_message("Only the Owner can Change Gemini AI Settings.", ephemeral=True)
           return
       if not apply:
@@ -262,7 +262,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
 #Show Settings Slash Command
 @tree.command(description="Show the Settings of Gemini AI")
 async def show_settings(interaction):
-  if interaction.user.id != Owner_User_Discord_ID:
+  if float(interaction.user.id) != float(Owner_User_Discord_ID):
       await interaction.response.send_message("Only the Owner can Show Gemini AI Settings.", ephemeral=True)
   else:
       global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
