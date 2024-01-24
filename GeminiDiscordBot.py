@@ -211,7 +211,7 @@ async def reset(interaction):
 @tree.command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
       if float(interaction.user.id) != float(Owner_User_Discord_ID):
-          await interaction.response.send_message("Only the Owner can Change Gemini AI Settings.", ephemeral=True)
+          await interaction.response.send_message("Only the Owner can Change Bots Settings.", ephemeral=True)
           return
       if not apply:
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
@@ -240,20 +240,40 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
       new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*".*?"', f'Max_Ouptut_Tokens_Image = {new_max_output_tokens_image}', new_data)
       with open("GeminiBotConfig.py", "w") as file:
           file.write(new_data)
-      await interaction.response.send_message(str(interaction.user.name) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}.")
-      print((str(interaction.user.id) + f" Has Changed: \nSystem prompt changed to {System_Prompt}. \nTemperature Text changed to {Temperature_Text}. \nTop P Text changed to {Top_P_Text}. \nTop K Text changed to {Top_K_Text}. \nMax Output Tokens Text changed to {new_max_output_tokens_text}. \nTemperature Image changed to {Temperature_Image}. \nTop P Image changed to {Top_P_Image}. \nTop K Image changed to {Top_K_Image}. \nMax Output Tokens Image changed to {Max_Output_Tokens_Image}."))
+      await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! do /show_settings to see all the Settings")
+      print((str(interaction.user.id) + f" Has Changed Bots Settings! do /show_settings to see all the Settings"))
+
 
 #Show Settings Slash Command
 @tree.command(description="Show the Settings of Gemini AI")
 async def show_settings(interaction):
   if float(interaction.user.id) != float(Owner_User_Discord_ID):
-      await interaction.response.send_message("Only the Owner can Show Gemini AI Settings.", ephemeral=True)
+      await interaction.response.send_message("Only the Owner can Show Bots Settings.", ephemeral=True)
   else:
       global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
       with open("GeminiBotConfig.py", "r") as file:
           filedata = file.read()
-      await interaction.response.send_message(str(interaction.user.name) + f" Showed: \nSystem Prompt: {System_Prompt}. \nTemperature Text: {Temperature_Text}. \nTop P Text: {Top_P_Text}. \nTop K Text: {Top_K_Text}. \nMax Output Tokens Text: {Max_Output_Tokens_Text}. \nTemperature Image: {Temperature_Image}. \nTop P Image: {Top_P_Image}. \nTop K Image: {Top_K_Image}. \nMax Output Tokens Image: {Max_Output_Tokens_Image}.")
-      print((str(interaction.user.id) + f" Showed: \nSystem Prompt: {System_Prompt}. \nTemperature Text: {Temperature_Text}. \nTop P Text: {Top_P_Text}. \nTop K Text: {Top_K_Text}. \nMax Output Tokens Text: {Max_Output_Tokens_Text}. \nTemperature Image: {Temperature_Image}. \nTop P Image: {Top_P_Image}. \nTop K Image: {Top_K_Image}. \nMax Output Tokens Image: {Max_Output_Tokens_Image}."))
+      settings = {
+          "System Prompt": System_Prompt,
+          "Temperature Text": Temperature_Text,
+          "Top P Text": Top_P_Text,
+          "Top K Text": Top_K_Text,
+          "Max Output Tokens Text": Max_Output_Tokens_Text,
+          "Temperature Image": Temperature_Image,
+          "Top P Image": Top_P_Image,
+          "Top K Image": Top_K_Image,
+          "Max Output Tokens Image": Max_Output_Tokens_Image,
+      }
+      messages = []
+      for setting_name, setting_value in settings.items():
+          message = f"{setting_name}: {setting_value}\n"
+          if len(message) > 2000:
+              messages.extend([message[i:i+2000] for i in range(0, len(message), 2000)])
+          else:
+              messages.append(message)
+      for message in messages:
+          await interaction.channel.send(message)
+      print((str(interaction.user.id) + f" Has Showed: {settings}"))
 
 
 # ---------------------------------------------Run Bot-------------------------------------------------
