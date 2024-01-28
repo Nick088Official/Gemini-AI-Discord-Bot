@@ -48,7 +48,6 @@ OR
 ## Commands
 
 - **Mention or DM the bot to activate:** History only works on pure text input
-- **Send an Image:** The bot will respond with an AI-generated interpretation or related content.
 - **Type 'RESET' OR do '/reset':** Clears the message history for the user.
 - **/change_settings:** For changing the bots settings (only for owner)
 - **/show_settings:** For showing the bots settings (only for owner)
