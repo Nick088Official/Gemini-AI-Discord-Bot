@@ -12,6 +12,7 @@ from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
 from GeminiBotConfig import MAX_HISTORY
 from GeminiBotConfig import System_Prompt
+from GeminiBotConfig import Bot_Info
 from GeminiBotConfig import Temperature_Text
 from GeminiBotConfig import Top_P_Text
 from GeminiBotConfig import Top_K_Text
@@ -130,11 +131,12 @@ async def on_message(message):
 
 
 async def generate_response_with_text(message_text):
-    prompt_parts = [System_Prompt, message_text]
+    prompt_parts = [System_Prompt, "You are a custom AI, you learn info to add to your already made knowledge, remember to use this info only when asked to, for example if user just says hi you dont mention your learned info unless you find the user request related to it, learn the following info to your knowledge to use only when asked to:", Bot_Info, "Now Reply to this ignoring everything before unless asked:", message_text]
     print("Got textPrompt: " + message_text)
     response = text_model.generate_content(prompt_parts)
     if (response._error):
-        return "❌" + str(response._error)
+        print("Gemini AI Error: " + str(response._error))
+        return "❌" + str(response._error) + "\nPlease do /reset and try again later."
     print("Gemini AI Replied: " + response.text)
     return response.text
 
@@ -210,14 +212,14 @@ async def reset(interaction):
 
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
-async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
+async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_bot_info: str = Bot_Info, new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
       if float(interaction.user.id) != float(Owner_User_Discord_ID):
           await interaction.response.send_message("Only the Owner can Change Bots Settings.", ephemeral=True)
           return
       if not apply:
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
-      global System_Prompt, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
+      global System_Prompt, Bot_Info, Temperature_Text, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Ouptut_Tokens_Image
       System_Prompt = new_system_prompt
       Temperature_Text = new_temperature_text
       Top_P_Text = new_top_p_text
@@ -231,18 +233,19 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
           filedata = file.read()
       # Replace the old values of the variables with the new ones
       new_data = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
-      new_data = re.sub(r'Temperature_Text\s*=\s*".*?"', f'Temperature_Text = {new_temperature_text}', new_data)
-      new_data = re.sub(r'Top_P_Text\s*=\s*".*?"', f'Top_P_Text = {new_top_p_text}', new_data)
-      new_data = re.sub(r'Top_K_Text\s*=\s*".*?"', f'Top_K_Text = {new_top_k_text}', new_data)
-      new_data = re.sub(r'Max_Output_Tokens_Text\s*=\s*".*?"', f'Max_Output_Tokens_Text = {new_max_output_tokens_text}', new_data)
-      new_data = re.sub(r'Temperature_Image\s*=\s*".*?"', f'Temperature_Image = {new_temperature_image}', new_data)
-      new_data = re.sub(r'Top_P_Image\s*=\s*".*?"', f'Top_P_Image = {new_top_p_image}', new_data)
-      new_data = re.sub(r'Top_K_Image\s*=\s*".*?"', f'Top_K_Image = {new_top_k_image}', new_data)
-      new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*".*?"', f'Max_Ouptut_Tokens_Image = {new_max_output_tokens_image}', new_data)
+      new_data = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"', filedata)
+      new_data = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}', new_data)
+      new_data = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}', new_data)
+      new_data = re.sub(r'Top_K_Text\s*=\s*\d+', f'Top_K_Text = {format(new_top_k_text, ".0f")}', new_data)
+      new_data = re.sub(r'Max_Output_Tokens_Text\s*=\s*\d+', f'Max_Output_Tokens_Text = {format(new_max_output_tokens_text, ".0f")}', new_data)
+      new_data = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}', new_data)
+      new_data = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}', new_data)
+      new_data = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}', new_data)
+      new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_data)
       with open("GeminiBotConfig.py", "w") as file:
           file.write(new_data)
       await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! do /show_settings to see all the Settings")
-      print((str(interaction.user.id) + f" Has Changed Bots Settings! do /show_settings to see all the Settings"))
+      print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work and if you want to see all Settings do /show_settings "))
 
 
 #Show Settings Slash Command
@@ -255,15 +258,16 @@ async def show_settings(interaction):
       with open("GeminiBotConfig.py", "r") as file:
           filedata = file.read()
       settings = {
-          "System Prompt": System_Prompt,
-          "Temperature Text": Temperature_Text,
-          "Top P Text": Top_P_Text,
-          "Top K Text": Top_K_Text,
-          "Max Output Tokens Text": Max_Output_Tokens_Text,
-          "Temperature Image": Temperature_Image,
-          "Top P Image": Top_P_Image,
-          "Top K Image": Top_K_Image,
-          "Max Output Tokens Image": Max_Output_Tokens_Image,
+          "**System Prompt**": System_Prompt,
+          "**Bot Info**": Bot_Info,
+          "**Temperature Text**": Temperature_Text,
+          "**Top P Text**": Top_P_Text,
+          "**Top K Text**": Top_K_Text,
+          "**Max Output Tokens Text**": Max_Output_Tokens_Text,
+          "**Temperature Image**": Temperature_Image,
+          "**Top P Image**": Top_P_Image,
+          "**Top K Image**": Top_K_Image,
+          "**Max Output Tokens Image**": Max_Output_Tokens_Image,
       }
       messages = []
       for setting_name, setting_value in settings.items():
@@ -276,6 +280,14 @@ async def show_settings(interaction):
           await interaction.channel.send(message)
       print((str(interaction.user.id) + f" Has Showed: {settings}"))
 
+#Meaning Settings Slash Command
+@tree.command(description="Meaning of the Settings of Gemini AI")
+async def meaning_settings(interaction):
+  if float(interaction.user.id) != float(Owner_User_Discord_ID):
+      await interaction.response.send_message("Only the Owner can Show Bots Settings.", ephemeral=True)
+  else:
+          await interaction.response.send_message("- `MAX_HISTORY`: The maximum number of messages to retain in history for each user. 0 will disable history.\n- `System_Prompt`: A special Prompt that instructs the Gemini Pro AI model to follow a certain behavior or interaction style when generating text or image responses.\n- `Bot_Info`: A paramenter where you could put Extra Knowledge to the bot.\n- `Temperature`: A parameter that controls the creativity or randomness of the text generated by Gemini Pro. A higher temperature results in more diverse and creative output, while a lower temperature makes the output more deterministic and focused.\n- `Top_P`: A parameter that controls the tokens that are considered for text generation by Gemini Pro. Only the tokens that have a cumulative probability mass equal to or higher than top_p are kept for sampling. A lower top_p value makes the output more constrained by the most probable tokens, while a higher top_p value allows for more diversity and exploration.\n- `Top_K`: A parameter that controls the number of highest probability tokens that are considered for text generation by Gemini Pro. Only the top_k tokens are kept for sampling. A lower top_k value makes the output more deterministic and focused, while a higher top_k value allows for more diversity and creativity.\n- `Max_Output_Tokens`: A parameter that controls the maximum number of tokens that Gemini Pro can generate for a text response. A lower value makes the output shorter and more concise, while a higher max_output_tokens_text value allows for longer and more detailed output.", ephemeral=True)
+          print((str(interaction.user.id) + f" Has Seen the Meaning of the Settings."))
 
 # ---------------------------------------------Run Bot-------------------------------------------------
 bot.run(DISCORD_BOT_TOKEN)
