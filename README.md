@@ -1,4 +1,4 @@
-# Gemini Discord Bot
+# Gemini AI Discord Bot
 
  Discord bot that leverages the power of Google's Gemini-Pro API to interact with users in both text and image formats. It processes messages and images sent to it, generating creative and engaging responses.
 
@@ -7,7 +7,8 @@
 - **AI-Driven Text Responses:** Gemini Bot can generate text responses to messages using Google's generative AI.
 - **Image Processing:** The bot can also respond to images, combining text and visual inputs for a more engaging interaction. (Images should be under 2.5 Megs)
 - **User Message History Management:** It maintains a history of user interactions via discordIDs, allowing for context-aware conversations.
-- **Customizable Settings:** Users can adjust various parameters like message history length and AI response settings.
+- **Customizable Settings:** Owners can adjust various parameters like message history length and AI response settings.
+- **Add your own knowledge:** Owners can add their Own Custom Knowledge to the Bot.
 
 ### Setup:
 
@@ -16,7 +17,7 @@
 1. FORK this Repo & Login at https://render.com and do create new Web Service
 2. Do Build and Deploy from a Git Repository and continue putting the link of the forked repo
 3. Give it a name, Select the Free Plan,Put "pip install -U -r requirements.txt" as Build Command & "python main.py" as Start Command
-4. Add 3 Enviroment Variables:[Your Discord Bot Token](https://www.writebots.com/discord-bot-token/), Your [Gemini Api Key](https://makersuite.google.com/app/apikey), and [Your Own Discord Id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#:~:text=On%20Android%20press%20and%20hold,name%20and%20select%20Copy%20ID.) ![image](https://github.com/Nick088Official/Gemini-AI-Discord-Bot/assets/91847579/ff782e9c-d109-47e1-9434-04942ef570b4)
+4. Add 3 Enviroment Variables:[Your Discord Bot Token](https://www.writebots.com/discord-bot-token/), Your [Gemini Api Key](https://makersuite.google.com/app/apikey), and [Your Own Discord Id, or just the Owners Discord ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#:~:text=On%20Android%20press%20and%20hold,name%20and%20select%20Copy%20ID.) ![image](https://github.com/Nick088Official/Gemini-AI-Discord-Bot/assets/91847579/ff782e9c-d109-47e1-9434-04942ef570b4)
 5. Create Web Service, then Deploy Last Commitment and your ready! in some time the bot will be online and stay like that for free 24/7
 
 ## Configuration
@@ -51,6 +52,7 @@ OR
 - **Type 'RESET' OR do '/reset':** Clears the message history for the user.
 - **/change_settings:** For changing the bots settings (only for owner)
 - **/show_settings:** For showing the bots settings (only for owner)
+- **/meaning_settings:** For showing the meaning of the settings (only for owner)
 
 ## Development
 
