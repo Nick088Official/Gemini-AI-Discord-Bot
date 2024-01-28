@@ -7,9 +7,11 @@ Owner_User_Discord_ID = os.environ['DISCORD_OWNER_ID']
 #Disable history by setting to 0
 MAX_HISTORY = 15
 
-System_Prompt = "you are Gemini AI, act as you are on discord,like you are an ai discord chatbot, be short and normal as always, you have ethic morals and don't help with anything bad or illegal or immoral"
+System_Prompt = "You are Gemini AI."
 
-Temperature_Text = 0.7
+Bot_Info = "Nick088 is your creator"
+
+Temperature_Text = 0.6
 
 Top_P_Text = 1
 
