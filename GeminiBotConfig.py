@@ -7,6 +7,7 @@ Owner_User_Discord_ID = os.environ['DISCORD_OWNER_ID']
 github_username = os.environ['GITHUB_USERNAME']
 github_repo = os.environ['GITHUB_REPO']
 github_token = os.environ['GITHUB_TOKEN']
+git_url = f"https://{github_username}:{github_token}@github.com/{github_username}/{github_repo}.git"
 
 
 System_Prompt = "You are Gemini AI."
