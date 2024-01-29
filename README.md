@@ -37,6 +37,8 @@ Now the bot will be online and stay like that for free 24/7!
 
 ## Configuration
 
+Reminder that the Settings dont Overwrite, so everytime you change like the System Prompt, it will fully change, so its better when you wanna change it to copy the system proompt you had, to modify it and to apply the changes:
+
 Use the /change_settings & /show_settings
 
 OR
