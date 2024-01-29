@@ -224,6 +224,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
       if not apply:
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
+      else:
         subprocess.run(["git", "config", "user.name", github_username])
         subprocess.run(["git", "config", "user.email", "you@example.com"])
         subprocess.run(["git", "add", "GeminiBotConfig.py"])
