@@ -4,6 +4,10 @@ GOOGLE_AI_KEY = os.environ['GOOGLE_API_KEY_GEMINI']
 #Create at https://discord.com/developers/applications
 DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 Owner_User_Discord_ID = os.environ['DISCORD_OWNER_ID']
+github_username = os.environ['GITHUB_USERNAME']
+github_repo = os.environ['GITHUB_REPO']
+github_token = os.environ['GITHUB_TOKEN']
+
 
 System_Prompt = "You are Gemini AI."
 
