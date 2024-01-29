@@ -18,7 +18,9 @@
 2. Do Build and Deploy from a Git Repository and continue putting the link of the forked repo
 3. Give it a name, Select the Free Plan,Put "pip install -r requirements.txt" as Build Command & "python main.py" as Start Command
 4. Add 3 Enviroment Variables:[Your Discord Bot Token](https://www.writebots.com/discord-bot-token/), Your [Gemini Api Key](https://makersuite.google.com/app/apikey), and [Your Own Discord Id, or just the Owners Discord ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID#:~:text=On%20Android%20press%20and%20hold,name%20and%20select%20Copy%20ID.) ![image](https://github.com/Nick088Official/Gemini-AI-Discord-Bot/assets/91847579/ff782e9c-d109-47e1-9434-04942ef570b4)
-5. Create Web Service, then Deploy Last Commitment and your ready! in some time the bot will be online and stay like that for free 24/7
+5. Create Web Service, then Deploy Last Commitment and your ready! in some time you should see this: ![image](https://github.com/Nick088Official/Gemini-AI-Discord-Bot/assets/91847579/93e03561-1675-4543-9cf8-d638863d913c)
+
+   meaning that the bot will be online and stay like that for free 24/7
 
 ## Configuration
 
