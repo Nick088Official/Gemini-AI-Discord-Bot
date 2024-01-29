@@ -220,8 +220,6 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
       if not apply:
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
-        github_username = os.environ['GITHUB_USERNAME']
-        github_repo = os.environ['GITHUB_REPO']
         git_url = f"https://{github_username}:{os.environ['GITHUB_TOKEN']}@github.com/{github_username}/{github_repo}.git"
         subprocess.run(["git", "config", "user.name", github_username])
         subprocess.run(["git", "config", "user.email", "you@example.com"])
