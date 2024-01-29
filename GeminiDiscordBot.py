@@ -3,6 +3,7 @@ import google.generativeai as genai
 from pathlib import Path
 import re
 import os
+import subprocess
 import requests
 from discord.ext import tasks, commands
 from discord import app_commands
