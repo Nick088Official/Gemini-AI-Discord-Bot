@@ -258,8 +258,8 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
           new_data = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}', new_data)
           new_data = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}', new_data)
           new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_data)
-        with open("GeminiBotConfig.py", "w") as file:
-            file.write(new_data)
+      with open("GeminiBotConfig.py", "w") as file:
+        file.write(new_data)
 
         await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
         print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
