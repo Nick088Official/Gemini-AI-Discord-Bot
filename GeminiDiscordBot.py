@@ -8,6 +8,7 @@ import requests
 from discord.ext import tasks, commands
 from discord import app_commands
 import aiohttp
+import importlib
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
@@ -236,6 +237,9 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         if response.status_code == 200:
             with open("GeminiBotConfig.py", "w") as file:
                 file.write(response.text)
+
+            # Reload the configuration module
+            importlib.reload(sys.modules['GeminiBotConfig'])
 
         await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
         print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
