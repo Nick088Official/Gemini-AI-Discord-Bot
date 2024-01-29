@@ -69,7 +69,3 @@ OR
 - **/change_settings:** For changing the bots settings (only for owner)
 - **/show_settings:** For showing the bots settings (only for owner)
 - **/meaning_settings:** For showing the meaning of the settings (only for owner)
-
-## Development
-
-Feel free to fork the project and customize it according to your needs (Like i did lol). Make sure to follow the guidelines set by Discord and Google for bot development and API usage.
