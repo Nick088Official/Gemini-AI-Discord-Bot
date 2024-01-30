@@ -244,8 +244,8 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         content = base64.b64decode(response_json["content"]).decode("utf-8")
 
         # Replace the old value of the variable with the new value
-        new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', new_content)
-        new_content = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"', new_content)
+        new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
+        new_content = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"', filedata)
         new_content = re.sub(r'MAX_HISTORY\s*=\s*\d+', f'MAX_HISTORY = {format(new_max_history, ".0f")}', new_content)
         new_content = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}', new_content)
         new_content = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}', new_content)
