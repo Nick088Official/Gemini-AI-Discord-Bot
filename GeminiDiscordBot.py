@@ -8,6 +8,7 @@ import requests
 from discord.ext import tasks, commands
 from discord import app_commands
 import aiohttp
+import base64
 
 from GeminiBotConfig import GOOGLE_AI_KEY
 from GeminiBotConfig import DISCORD_BOT_TOKEN
