@@ -226,10 +226,6 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
       else:
-
-        # Fetch the updated file from GitHub
-        response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repo}/contents/GeminiBotConfig.py")
-        if response.status_code == 200:
           System_Prompt = new_system_prompt
           Temperature_Text = new_temperature_text
           MAX_HISTORY = new_max_history
@@ -240,22 +236,37 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
           Top_P_Image = new_top_p_image
           Top_K_Image = new_top_k_image
           Max_Ouptut_Tokens_Image = new_max_output_tokens_image
-      with open("GeminiBotConfig.py", "r") as file:
-          filedata = file.read()
-          # Replace the old values of the variables with the new ones
-          new_data = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
-          new_data = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"', filedata)
-          new_data = re.sub(r'MAX_HISTORY\s*=\s*\d+', f'MAX_HISTORY = {format(new_max_history, ".0f")}', new_data)
-          new_data = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}', new_data)
-          new_data = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}', new_data)
-          new_data = re.sub(r'Top_K_Text\s*=\s*\d+', f'Top_K_Text = {format(new_top_k_text, ".0f")}', new_data)
-          new_data = re.sub(r'Max_Output_Tokens_Text\s*=\s*\d+', f'Max_Output_Tokens_Text = {format(new_max_output_tokens_text, ".0f")}', new_data)
-          new_data = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}', new_data)
-          new_data = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}', new_data)
-          new_data = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}', new_data)
-          new_data = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_data)
-      with open("GeminiBotConfig.py", "w") as file:
-        file.write(new_data)
+          # Make a GET request to the GitHub API to retrieve the contents of the file
+          response = requests.get("https://api.github.com/repos/<username>/<repository>/contents/<file-path>")
+          response_json = json.loads(response.text)
+          content = response_json["content"]
+          decoded_content = base64.b64decode(content).decode("utf-8")
+
+          # Replace the old value of the variable with the new value
+          new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"')
+          new_content = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"')
+          new_content = re.sub(r'MAX_HISTORY\s*=\s*\d+', f'MAX_HISTORY = {format(new_max_history, ".0f")}')
+          new_content = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}')
+          new_content = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}')
+          new_content = re.sub(r'Top_K_Text\s*=\s*\d+', f'Top_K_Text = {format(new_top_k_text, ".0f")}')
+          new_content = re.sub(r'Max_Output_Tokens_Text\s*=\s*\d+', f'Max_Output_Tokens_Text = {format(new_max_output_tokens_text, ".0f")}')
+          new_content = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}')
+          new_content = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}')
+          new_content = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}')
+          new_content = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}')
+
+          # Make a PUT request to the GitHub API to update the contents of the file
+          data = {
+             "message": "Update variable value",
+            "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
+            "sha": response_json["sha"]
+       }
+          headers = {
+            "Authorization": "Bearer <access-token>"
+        }
+        put_response = requests.put("https://api.github.com/repos/<username>/<repository>/contents/<file-path>", data=json.dumps(data), headers=headers)
+            # Fetch the updated file from GitHub
+            response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repo}/contents/GeminiBotConfig.py")
 
         await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
         print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
