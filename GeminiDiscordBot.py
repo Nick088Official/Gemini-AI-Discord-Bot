@@ -219,55 +219,27 @@ async def reset(interaction):
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_bot_info: str = Bot_Info, new_max_history: float = float(MAX_HISTORY), new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
-      if float(interaction.user.id) != float(Owner_User_Discord_ID):
-          await interaction.response.send_message("Only the Owner can Change Bots Settings.", ephemeral=True)
-          return
-      if not apply:
-          await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
-          return
-      else:
-          System_Prompt = new_system_prompt
-          Temperature_Text = new_temperature_text
-          MAX_HISTORY = new_max_history
-          Top_P_Text = new_top_p_text
-          Top_K_Text = new_top_k_text
-          Max_Output_Tokens_Text = new_max_output_tokens_text
-          Temperature_Image = new_temperature_image
-          Top_P_Image = new_top_p_image
-          Top_K_Image = new_top_k_image
-          Max_Ouptut_Tokens_Image = new_max_output_tokens_image
-          # Make a GET request to the GitHub API to retrieve the contents of the file
-          response = requests.get("https://api.github.com/repos/<username>/<repository>/contents/<file-path>")
-          response_json = json.loads(response.text)
-          content = response_json["content"]
-          decoded_content = base64.b64decode(content).decode("utf-8")
+    if float(interaction.user.id) != float(Owner_User_Discord_ID):
+        await interaction.response.send_message("Only the Owner can Change Bots Settings.", ephemeral=True)
+        return
+    if not apply:
+        await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
+        return
+    else:
+        global System_Prompt, Temperature_Text, MAX_HISTORY, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Output_Tokens_Image
+        System_Prompt = new_system_prompt
+        Temperature_Text = new_temperature_text
+        MAX_HISTORY = new_max_history
+        Top_P_Text = new_top_p_text
+        Top_K_Text = new_top_k_text
+        Max_Output_Tokens_Text = new_max_output_tokens_text
+        Temperature_Image = new_temperature_image
+        Top_P_Image = new_top_p_image
+        Top_K_Image = new_top_k_image
+        Max_Output_Tokens_Image = new_max_output_tokens_image
 
-          # Replace the old value of the variable with the new value
-          new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"')
-          new_content = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"')
-          new_content = re.sub(r'MAX_HISTORY\s*=\s*\d+', f'MAX_HISTORY = {format(new_max_history, ".0f")}')
-          new_content = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}')
-          new_content = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}')
-          new_content = re.sub(r'Top_K_Text\s*=\s*\d+', f'Top_K_Text = {format(new_top_k_text, ".0f")}')
-          new_content = re.sub(r'Max_Output_Tokens_Text\s*=\s*\d+', f'Max_Output_Tokens_Text = {format(new_max_output_tokens_text, ".0f")}')
-          new_content = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}')
-          new_content = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}')
-          new_content = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}')
-          new_content = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}')
-
-          # Make a PUT request to the GitHub API to update the contents of the file
-          data = {
-             "message": "Update variable value",
-            "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
-            "sha": response_json["sha"]
-       }
-          headers = {
-            "Authorization": "Bearer <access-token>"
-        }
-          put_response = requests.put("https://api.github.com/repos/{github_username}/{github_repo}/contents/GeminiBotConfig.py", data=json.dumps(data), headers=headers)
-
-          await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
-          print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
+        await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
+        print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
 
 #Show Settings Slash Command
 @tree.command(description="Show the Settings of Gemini AI")
