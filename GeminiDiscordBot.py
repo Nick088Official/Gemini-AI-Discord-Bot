@@ -238,7 +238,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         Top_K_Image = new_top_k_image
         Max_Output_Tokens_Image = new_max_output_tokens_image
         # Make a GET request to the GitHub API to retrieve the contents of the file
-        response = requests.get("https://api.github.com/repos/{github_username}/{github_repo}/contents/GeminiBotConfig.py")
+        response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
         response_json = response.json()
         content = base64.b64decode(response_json["content"]).decode("utf-8")
 
@@ -264,7 +264,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         headers = {
             "Authorization": "Bearer <access-token>"
         }
-        put_response = requests.put("https://api.github.com/repos/{github_username}/{github_repo}/contents/GeminiBotConfig.py", data=json.dumps(data), headers=headers)
+        put_response = requests.put("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py", data=json.dumps(data), headers=headers)
 
         await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
         print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
