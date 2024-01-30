@@ -242,6 +242,8 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
         response_json = response.json()
         content = base64.b64decode(response_json["content"]).decode("utf-8")
+    with open("GeminiBotConfig.py", "r") as file:
+          filedata = file.read()
 
         # Replace the old value of the variable with the new value
         new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', filedata)
