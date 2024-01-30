@@ -221,7 +221,7 @@ def update_config_value(variable, value):
     # Replace the old value of the variable with the new one
     new_data = re.sub(
         rf"{variable}\s*=\s*{re.escape(re.sub('"', r'\\"', str(ast.literal_eval(variable))))}",
-        f"{variable} = {re.escape(re.sub('"', r'\\"', str(value)))}",
+        f"{variable} = {re.escape(re.sub('"', r'\\"', str(value))) Auchor",
         filedata,
     )
     with open("GeminiBotConfig.py", "w") as file:
