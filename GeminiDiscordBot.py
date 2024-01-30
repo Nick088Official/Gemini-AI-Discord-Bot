@@ -215,6 +215,18 @@ async def reset(interaction):
     await interaction.response.send_message("🤖 History Reset for user: " + str(interaction.user.name))
     print(str(interaction.user.id) + " Has Resetted their AI Chat History")
 
+def update_config_value(variable, value):
+    with open("GeminiBotConfig.py", "r") as file:
+        filedata = file.read()
+    # Replace the old value of the variable with the new one
+    new_data = re.sub(
+        rf"{variable}\s*=\s*{re.escape(re.sub('"', r'\\"', str(ast.literal_eval(variable))))}",
+        f"{variable} = {re.escape(re.sub('"', r'\\"', str(value)))}",
+        filedata,
+    )
+    with open("GeminiBotConfig.py", "w") as file:
+        file.write(new_data)
+
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
 async def change_settings(interaction, apply: bool, new_system_prompt: str = System_Prompt, new_bot_info: str = Bot_Info, new_max_history: float = float(MAX_HISTORY), new_temperature_text: float = float(Temperature_Text), new_top_p_text: float = float(Top_P_Text), new_top_k_text: float = float(Top_K_Text), new_max_output_tokens_text: float = float(Max_Output_Tokens_Text), new_temperature_image: float = float(Temperature_Image), new_top_p_image: float = float(Top_P_Image), new_top_k_image: float = float(Top_K_Image), new_max_output_tokens_image: float = float(Max_Output_Tokens_Image)):
@@ -225,11 +237,17 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
           await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings atleast", ephemeral=True)
           return
       else:
-        subprocess.run(["git", "config", "user.name", github_username])
-        subprocess.run(["git", "config", "user.email", "you@example.com"])
-        subprocess.run(["git", "add", "GeminiBotConfig.py"])
-        subprocess.run(["git", "commit", "-m", f"Update config: {new_system_prompt}, {new_bot_info}, {new_max_history}, {new_temperature_text}, {new_top_p_text}, {new_top_k_text}, {new_max_output_tokens_text}, {new_temperature_image}, {new_top_p_image}, {new_top_k_image}, {new_max_output_tokens_image}"])
-        subprocess.run(["git", "push", git_url])
+        update_config_value("System_Prompt", new_system_prompt)
+        update_config_value("Bot_Info", new_bot_info)
+        update_config_value("MAX_HISTORY", int(new_max_history))
+        update_config_value("Temperature_Text", new_temperature_text)
+        update_config_value("Top_P_Text", new_top_p_text)
+        update_config_value("Top_K_Text", new_top_k_text)
+        update_config_value("Max_Output_Tokens_Text", new_max_output_tokens_text)
+        update_config_value("Temperature_Image", new_temperature_image)
+        update_config_value("Top_P_Image", new_top_p_image)
+        update_config_value("Top_K_Image", new_top_k_image)
+        update_config_value("Max_Output_Tokens_Image", new_max_output_tokens_image)
 
         # Fetch the updated file from GitHub
         response = requests.get(f"https://raw.githubusercontent.com/{github_username}/{github_repo}/main/GeminiBotConfig.py")
