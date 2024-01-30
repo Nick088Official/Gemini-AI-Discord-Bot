@@ -266,7 +266,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
               "sha": response_json["sha"]
           }
           headers = {
-              "Authorization": "Bearer " + str{github_username}
+              "Authorization": "Bearer " + str({github_username}),
           }
           put_response = requests.put("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py", data=json.dumps(data), headers=headers)
 
