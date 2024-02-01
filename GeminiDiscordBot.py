@@ -268,7 +268,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
     new_content = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}', new_content)
     new_content = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}', new_content)
     new_content = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}', new_content)
-    new_content = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_content)
+    new_content = re.sub(r'Max_Output_Tokens_Image\s*=\s*\d+', f'Max_Output_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_content)
 
     # Make a PUT request to the GitHub API to update the contents of the file
     data = {
