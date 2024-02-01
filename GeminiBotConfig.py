@@ -10,7 +10,7 @@ github_token = os.environ['GITHUB_TOKEN']
 git_url = f"https://{github_username}:{github_token}@github.com/{github_username}/{github_repo}.git"
 
 
-System_Prompt = "You are Gemini AI."
+System_Prompt = "hi"
 
 Bot_Info = "grefgbrfe"
 
