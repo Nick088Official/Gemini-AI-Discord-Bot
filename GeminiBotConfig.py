@@ -12,7 +12,7 @@ git_url = f"https://{github_username}:{github_token}@github.com/{github_username
 
 System_Prompt = "hi"
 
-Bot_Info = "hi"
+Bot_Info = "Nick088 Is the name of your creator"
 
 Temperature_Text = 0.5
 
