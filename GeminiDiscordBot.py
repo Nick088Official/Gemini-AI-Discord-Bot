@@ -257,13 +257,18 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
 
     # Make a GET request to the GitHub API to retrieve the contents of the file
     response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
-    
-    # Check if the response contains 'content'
+
+    # Check if the response is successful
+    if response.status_code != 200:
+        await interaction.response.send_message(f"Error fetching file from GitHub. Status code: {response.status_code}", ephemeral=True)
+        return
+
+    # Extract content from the response
     try:
         response_json = response.json()
         content = base64.b64decode(response_json["content"]).decode("utf-8")
     except KeyError:
-        await interaction.response.send_message("Error fetching file content from GitHub.", ephemeral=True)
+        await interaction.response.send_message("Error extracting content from GitHub response.", ephemeral=True)
         return
 
     # Replace the old value of each variable with the new value
@@ -287,9 +292,13 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
     # Make the PUT request
     put_response = requests.put("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py", data=json.dumps(data), headers=headers)
 
+    # Check if the update was successful
+    if put_response.status_code != 200:
+        await interaction.response.send_message(f"Error updating file on GitHub. Status code: {put_response.status_code}", ephemeral=True)
+        return
+
     await interaction.response.send_message(str(interaction.user.name) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work.")
     print((str(interaction.user.id) + f" Has Changed Bots Settings! Please do /reset to instantly make the changes work."))
-
 
 
 
