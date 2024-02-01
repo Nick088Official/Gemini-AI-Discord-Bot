@@ -218,6 +218,11 @@ async def reset(interaction):
     print(str(interaction.user.id) + " Has Resetted their AI Chat History")
     
 
+# Import necessary libraries
+import requests
+import base64
+import re
+import json
 
 # Dictionary to store changed variables
 changed_variables = {}
@@ -252,8 +257,14 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
 
     # Make a GET request to the GitHub API to retrieve the contents of the file
     response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
-    response_json = response.json()
-    content = base64.b64decode(response_json["content"]).decode("utf-8")
+    
+    # Check if the response contains 'content'
+    try:
+        response_json = response.json()
+        content = base64.b64decode(response_json["content"]).decode("utf-8")
+    except KeyError:
+        await interaction.response.send_message("Error fetching file content from GitHub.", ephemeral=True)
+        return
 
     # Replace the old value of the variable with the new value
     new_content = content
