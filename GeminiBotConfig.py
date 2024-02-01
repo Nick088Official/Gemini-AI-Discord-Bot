@@ -12,12 +12,12 @@ git_url = f"https://{github_username}:{github_token}@github.com/{github_username
 
 System_Prompt = "You are Gemini AI."
 
-Bot_Info = "hi"
+Bot_Info = "grefgbrfe"
 
-Temperature_Text = 0.6
+Temperature_Text = 0.5
 
 #Disable history by setting to 0
-MAX_HISTORY = 10
+MAX_HISTORY = 15
 
 Top_P_Text = 1
 
