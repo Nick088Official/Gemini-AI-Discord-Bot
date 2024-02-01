@@ -266,11 +266,11 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         await interaction.response.send_message("Error fetching file content from GitHub.", ephemeral=True)
         return
 
-    # Replace the old value of the variable with the new value
+    # Replace the old value of each variable with the new value
     new_content = content
     for var_name, new_value in changed_variables.items():
         pattern = re.compile(rf'{var_name}\s*=\s*".*?"')
-        new_content = re.sub(pattern, f'{var_name} = "{new_value}"', new_content)
+        new_content = pattern.sub(f'{var_name} = "{new_value}"', new_content)
 
     # Make a PUT request to the GitHub API to update the contents of the file
     data = {
