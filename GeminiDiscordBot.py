@@ -218,11 +218,9 @@ async def reset(interaction):
     print(str(interaction.user.id) + " Has Resetted their AI Chat History")
     
 
-# Import necessary libraries
-import requests
-import base64
-import re
-import json
+
+# Dictionary to store changed variables
+changed_variables = {}
 
 # Change Settings Slash Command
 @tree.command(description="Change the Settings of Gemini AI")
@@ -238,18 +236,19 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         await interaction.response.send_message("The apply option must be set to yes, and you must change one of the settings at least", ephemeral=True)
         return
 
-    # Update global variables
+    # Update global variables and store changed variables in the dictionary
     global System_Prompt, Temperature_Text, MAX_HISTORY, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Output_Tokens_Image
-    System_Prompt = new_system_prompt
-    Temperature_Text = new_temperature_text
-    MAX_HISTORY = new_max_history
-    Top_P_Text = new_top_p_text
-    Top_K_Text = new_top_k_text
-    Max_Output_Tokens_Text = new_max_output_tokens_text
-    Temperature_Image = new_temperature_image
-    Top_P_Image = new_top_p_image
-    Top_K_Image = new_top_k_image
-    Max_Output_Tokens_Image = new_max_output_tokens_image
+    changed_variables["System_Prompt"] = new_system_prompt
+    changed_variables["Bot_Info"] = new_bot_info
+    changed_variables["MAX_HISTORY"] = new_max_history
+    changed_variables["Temperature_Text"] = new_temperature_text
+    changed_variables["Top_P_Text"] = new_top_p_text
+    changed_variables["Top_K_Text"] = new_top_k_text
+    changed_variables["Max_Output_Tokens_Text"] = new_max_output_tokens_text
+    changed_variables["Temperature_Image"] = new_temperature_image
+    changed_variables["Top_P_Image"] = new_top_p_image
+    changed_variables["Top_K_Image"] = new_top_k_image
+    changed_variables["Max_Output_Tokens_Image"] = new_max_output_tokens_image
 
     # Make a GET request to the GitHub API to retrieve the contents of the file
     response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
@@ -257,17 +256,10 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
     content = base64.b64decode(response_json["content"]).decode("utf-8")
 
     # Replace the old value of the variable with the new value
-    new_content = re.sub(r'System_Prompt\s*=\s*".*?"', f'System_Prompt = "{new_system_prompt}"', content)
-    new_content = re.sub(r'Bot_Info\s*=\s*".*?"', f'Bot_Info = "{new_bot_info}"', new_content)
-    new_content = re.sub(r'MAX_HISTORY\s*=\s*\d+', f'MAX_HISTORY = {format(new_max_history, ".0f")}', new_content)
-    new_content = re.sub(r'Temperature_Text\s*=\s*\d+\.\d+', f'Temperature_Text = {format(new_temperature_text, ".1f")}', new_content)
-    new_content = re.sub(r'Top_P_Text\s*=\s*\d+', f'Top_P_Text = {format(new_top_p_text, ".0f")}', new_content)
-    new_content = re.sub(r'Top_K_Text\s*=\s*\d+', f'Top_K_Text = {format(new_top_k_text, ".0f")}', new_content)
-    new_content = re.sub(r'Max_Output_Tokens_Text\s*=\s*\d+', f'Max_Output_Tokens_Text = {format(new_max_output_tokens_text, ".0f")}', new_content)
-    new_content = re.sub(r'Temperature_Image\s*=\s*\d+\.\d+', f'Temperature_Image = {format(new_temperature_image, ".1f")}', new_content)
-    new_content = re.sub(r'Top_P_Image\s*=\s*\d+', f'Top_P_Image = {format(new_top_p_image, ".0f")}', new_content)
-    new_content = re.sub(r'Top_K_Image\s*=\s*\d+', f'Top_K_Image = {format(new_top_k_image, ".0f")}', new_content)
-    new_content = re.sub(r'Max_Ouptut_Tokens_Image\s*=\s*\d+', f'Max_Ouptut_Tokens_Image = {format(new_max_output_tokens_image, ".0f")}', new_content)
+    new_content = content
+    for var_name, new_value in changed_variables.items():
+        pattern = re.compile(rf'{var_name}\s*=\s*".*?"')
+        new_content = re.sub(pattern, f'{var_name} = "{new_value}"', new_content)
 
     # Make a PUT request to the GitHub API to update the contents of the file
     data = {
