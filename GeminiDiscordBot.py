@@ -253,8 +253,16 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
     Max_Output_Tokens_Image = new_max_output_tokens_image
 
     # Make a GET request to the GitHub API to retrieve the contents of the file
+    # Make a GET request to the GitHub API to retrieve the contents of the file
     response = requests.get("https://api.github.com/repos/Nick088Official/Gemini-AI-Discord-Bot/contents/GeminiBotConfig.py")
     response_json = response.json()
+
+    # Check if the 'content' key is present in the response
+    if 'content' not in response_json:
+        await interaction.response.send_message("Failed to retrieve file content from GitHub API.", ephemeral=True)
+        return
+
+    # Decode the content
     content = base64.b64decode(response_json["content"]).decode("utf-8")
 
     # Replace the old value of the variable with the new value
