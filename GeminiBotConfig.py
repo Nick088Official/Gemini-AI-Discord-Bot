@@ -12,7 +12,7 @@ git_url = f"https://{github_username}:{github_token}@github.com/{github_username
 
 System_Prompt = "You are Gemini AI."
 
-Bot_Info = "grefgbrfe"
+Bot_Info = "hi"
 
 Temperature_Text = 0.6
 
