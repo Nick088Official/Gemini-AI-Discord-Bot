@@ -1,7 +1,7 @@
 import discord
 import google.generativeai as genai
 from pathlib import Path
-from discord.ext.commands.converter import re as re_converter
+import re
 import os
 import subprocess
 import requests
