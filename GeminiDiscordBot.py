@@ -239,7 +239,7 @@ async def change_settings(interaction, apply: bool, new_system_prompt: str = Sys
         return
 
     # Update global variables
-    global System_Prompt, Bot_Info Temperature_Text, MAX_HISTORY, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Output_Tokens_Image
+    global System_Prompt, Bot_Info, Temperature_Text, MAX_HISTORY, Top_P_Text, Top_K_Text, Max_Output_Tokens_Text, Temperature_Image, Top_P_Image, Top_K_Image, Max_Output_Tokens_Image
     System_Prompt = new_system_prompt
     Bot_Info = new_bot_info
     Temperature_Text = new_temperature_text
